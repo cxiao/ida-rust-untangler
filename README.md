@@ -14,6 +14,8 @@ After:
 
 ![Image of a decompiled function with the original demangled Rust name `<alloc::string::String as core::fmt::Write>::write_str::h461a5a8697e61a03`](images/decompiler-window-after-demangle-screenshot.png)
 
+Because IDA has limitations on the characters that can be used in function names, not all functions can be directly renamed to their demangled equivalents. In cases where a function cannot be renamed to the actual demangled name, a comment with the actual demangled name is set on the function.
+
 ## Installation
 
 1. Install the Python dependencies from this repository's [`requirements.txt`](requirements.txt).
