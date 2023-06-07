@@ -16,6 +16,18 @@ After:
 
 Because IDA has limitations on the characters that can be used in function names, not all functions can be directly renamed to their demangled equivalents. In cases where a function cannot be renamed to the actual demangled name, a comment with the actual demangled name is set on the function.
 
+## FAQ
+
+_Why are there strings like `h461a5a8697e61a03` after all my functions, even after demangling?_
+
+This is a hash, unique per-function, applied by the Rust compiler when mangling names. The purpose of the hash is to disambiguate between symbols which may have the same name.
+
+You can read more about the reasons for needing this disambiguating hash in [Rust RFC 2603](https://rust-lang.github.io/rfcs/2603-rust-symbol-name-mangling-v0.html#requirements-for-a-symbol-mangling-scheme), which proposes a new name mangling scheme to replace the current one:
+
+> "Unambiguous" means that no two distinct compiler-generated entities (that is, mostly object code for functions) must be mapped to the same symbol name. This disambiguation is the main purpose of the hash-suffix in the current, legacy mangling scheme.
+
+The presence of this hash does not mean that the demangling failed; some demangling tools / libs [like rustc_demangle have the option to drop it when demangling](https://github.com/rust-lang/rustc-demangle/pull/5), but it's left intact in this plugin.
+
 ## Installation
 
 1. Install the Python dependencies from this repository's [`requirements.txt`](requirements.txt).
