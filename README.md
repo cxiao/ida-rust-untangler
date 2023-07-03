@@ -58,3 +58,7 @@ Alternatively, you can find the location of the IDA plugins directory on your sy
 ```python
 import idaapi, os; print(os.path.join(idaapi.get_user_idadir(), "plugins"))
 ```
+
+## Attribution
+
+The main demangling logic in this plugin is performed by the [`rust_demangler`](https://github.com/teambi0s/rust_demangler) Python library, by Team bi0s.
