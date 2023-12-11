@@ -35,7 +35,12 @@ The presence of this hash does not mean that the demangling failed; some demangl
 In the Python environment used by IDA, run
 ```
 pip install -r requirements.txt
+python3 install.py
 ```
+
+
+
+## Manual Installation
 
 2. Copy [`ida_rust_untangler.py`](ida_rust_untangler.py) into your IDA plugins directory.
 
