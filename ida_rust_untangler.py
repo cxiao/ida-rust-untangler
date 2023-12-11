@@ -2,6 +2,7 @@ import logging
 
 import rust_demangler
 from rust_demangler.rust import TypeNotFoundError
+import re
 
 import idaapi
 import idautils
@@ -84,14 +85,28 @@ class RustUntanglerPlugin(idaapi.plugin_t):
         pass
 
     def demangle_action(self):
+        def search(input_str):
+            pattern = r"(::[a-z,0-9)]{17})$"
+            match = re.search(pattern, input_str)
+            
+            if match:
+                return match.group(0)
+            else:
+                return None
+            
         for func_address in idautils.Functions():
             func_name = idaapi.get_func_name(func_address)
             func_object = idaapi.get_func(func_address)
 
+            if not func_name.startswith("_ZN"):
+                continue
+
             logger.debug(f"{func_address:#x}, {func_name}")
             try:
                 demangled_name = rust_demangler.demangle(func_name)
-                logger.info(f"Demangled: {func_address:#x}, {demangled_name}")
+                identifier_full = search(demangled_name)
+                if identifier_full:
+                    demangled_name = demangled_name.replace(identifier_full, "")  
 
                 # Automatically replace invalid characters with `_` (via SN_NOCHECK),
                 # and automatically append a numerical suffix to the name if it already exists (via SN_FORCE).
